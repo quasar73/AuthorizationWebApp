@@ -1,0 +1,54 @@
+﻿@model AuthorizationWebApp.ViewModels.TableViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <form asp-action="Index" id="form1">
+        <input type="hidden" asp-for="@Model.OperationType" id="operationTypeInput" value="@Model.OperationType"/>
+        <div class="btn-group mb-2">
+            <button class="btn btn-dark"><img src="~/img/block.png" width="24" height="24" onclick="SubmitToBlock()" /></button>
+            <button class="btn btn-dark"><img src="~/img/unblock.png" width="24" height="24" onclick="SubmitToUnblock()" /></button>
+            <button class="btn btn-dark"><img src="~/img/delete.png" width="24" height="24" onclick="SubmitToDelete()" /></button>
+        </div>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th><input type="checkbox" onclick="toggle(this)" /></th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Registration date</th>
+                    <th>Last login date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int i = 0; }
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td><input type="checkbox" asp-for="@Model.checkList[i]" /></td>
+                        <td>@user.Id</td>
+                        <td>@user.Name</td>
+                        <td>@user.Email</td>
+                        <td>@user.RegistrationDate.ToShortDateString()</td>
+                        <td>@user.LastLoginDate.Value.ToShortDateString()</td>
+                        <td>@(user.Status == false ? "Unblocked" : "Blocked")</td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    </form>
+    <script src="~/js/SelectAllScript.js" asp-append-version="true"></script>
+    <script src="~/js/PostMethodsScript.js" asp-append-version="true"></script>
+</body>
+</html>
